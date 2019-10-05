@@ -38,6 +38,22 @@ function getRange {
     }
 }
 
+function getCidr {
+    param($cidrstr)
+    $parsed = $cidrstr -split "/"
+    $startip = $parsed[0]
+    $cidr = $parsed[1]
+    $a = 32 - [int]($cidr)
+    $b = [Math]::Pow(2,$a)
+    $b
+    $c = iptoint($startip)
+    For ($i = 0; $i -lt $b; $i ++) {
+        $num = $c + $i
+        $ipval = inttoip($num)
+        addToList($ipval)1
+    }
+}
+
 $iprange = Read-Host -Prompt 'Enter the IP range to sweep: '
 if ($iprange -match "-") {
     #range
@@ -46,5 +62,6 @@ if ($iprange -match "-") {
 } else {
     #cidr
     Write-Output("CIDR")
+    getCidr($iprange)
 }
 
