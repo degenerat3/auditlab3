@@ -23,12 +23,9 @@ function addToList() {
 
 function getRange {
     param($iprange)
-    $iprange
     $parsed = $iprange -split "-"
     $startip = $parsed[0]
     $endip = $parsed[1]
-    $startip
-    $endip
     $a = iptoint($startip)
     $b = iptoint($endip)
     $b ++
@@ -45,7 +42,6 @@ function getCidr {
     $cidr = $parsed[1]
     $a = 32 - [int]($cidr)
     $b = [Math]::Pow(2,$a)
-    $b
     $c = iptoint($startip)
     For ($i = 0; $i -lt $b; $i ++) {
         $num = $c + $i
@@ -57,11 +53,19 @@ function getCidr {
 $iprange = Read-Host -Prompt 'Enter the IP range to sweep: '
 if ($iprange -match "-") {
     #range
-    Write-Output("range")
     getRange($iprange)
 } else {
     #cidr
-    Write-Output("CIDR")
     getCidr($iprange)
 }
 
+"Scanning"
+foreach($ip in Get-Content .\"iplist.txt") {
+    $con = Test-Connection $ip -Quiet -Count 1
+    if ($con) {
+        $upstr = [string]$ip + " is up"
+        Write-Output($upstr)
+    }
+}
+
+Remove-Item -Path .\"iplist.txt"
