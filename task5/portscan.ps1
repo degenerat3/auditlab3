@@ -52,6 +52,10 @@ function getCidr {
 
 $iprange = Read-Host -Prompt 'Enter the IP(s) to scan: '
 $ports = Read-Host -Prompt 'Enter port(s) to scan: '
+if ($ports.Count -eq 0){
+    Write-Output("SYNTAX ERROR: Ports are required")
+    exit
+}
 
 $portlist = @()
 
@@ -70,7 +74,7 @@ if ($ports -match "-") {
 } else {
     $portlist += [int]$ports
 }
-
+Write-Output("[+] Generating IP List...")
 if ($iprange -match "-") {
     #range
     getRange($iprange)
@@ -81,7 +85,7 @@ if ($iprange -match "-") {
     Add-Content "iplist.txt" $iprange
 }
 
-"Scanning " + $iprange + ": port(s) " + $ports
+"[+] Scanning " + $iprange + ": port(s) " + $ports + "..."
 foreach($ip in Get-Content .\"iplist.txt") {
     foreach ($p in $portlist){
         $con = (new-object net.sockets.tcpclient);
