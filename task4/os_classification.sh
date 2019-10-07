@@ -35,3 +35,4 @@ for IP in $IPS;
                     echo "[*] Host: $i OS: Linux";;
         esac
     done
+
