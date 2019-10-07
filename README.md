@@ -4,7 +4,7 @@ Network enumeration scripts for CSEC 465 - lab #3
 ## Usage Instructions
 
 ### Task2  
-The filename argument is the path to a file containing a list of IP addresses  
+The filename argument is the path to a file containing a (newline separated) list of IP addresses  
 Usage:  
 ```
 $./dnsLookup.sh <filename>
